@@ -1,0 +1,69 @@
+{
+  "name": "wds-backend",
+  "version": "1.0.0",
+  "description": "An Express.js boilerplate backend",
+  "author": "Louis-Kaan Ay",
+  "license": "MIT",
+  "private": false,
+  "main": "index.js",
+  "type": "commonjs",
+  "scripts": {
+    "dev": "NODE_ENV=development tsc --project ./tsconfig.json --watch & nodemon ./dist/index.js",
+    "build": "tsc --project './tsconfig.json'",
+    "start": "npm run build && NODE_ENV=production node ./dist/index.js",
+    "watch": "tsc --project './tsconfig.json' --watch",
+    "lint": "eslint src/**/*.{ts,css,js,html}",
+    "lint:fix": "eslint --fix --ext src/**/*.ts",
+    "code:format": "prettier --write src/**/*.ts",
+    "code:check": "prettier --check src/**/*.ts",
+    "code:format:specific-file": "prettier --write ",
+    "test": "jest",
+    "prepare": "husky install"
+  },
+  "dependencies": {
+    "@types/helmet": "^4.0.0",
+    "compression": "^1.7.4",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "eslint": "^8.50.0",
+    "express": "^4.18.2",
+    "helmet": "^7.0.0"
+  },
+  "devDependencies": {
+    "@tsconfig/node-lts-strictest-esm": "^18.12.1",
+    "@types/compression": "^1.7.3",
+    "@types/cors": "^2.8.14",
+    "@types/dotenv": "^8.2.0",
+    "@types/express": "^4.17.18",
+    "@types/jest": "^29.5.5",
+    "@types/supertest": "^2.0.13",
+    "@typescript-eslint/eslint-plugin": "^6.7.3",
+    "@typescript-eslint/parser": "^6.7.3",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-config-standard": "^17.1.0",
+    "eslint-config-standard-with-typescript": "^39.1.0",
+    "eslint-plugin-import": "^2.28.1",
+    "eslint-plugin-n": "^16.1.0",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^6.1.1",
+    "eslint-plugin-standard": "^5.0.0",
+    "husky": "^8.0.3",
+    "nodemon": "^3.0.1",
+    "prettier": "^3.0.3",
+    "prettier-eslint": "^15.0.1",
+    "supertest": "^6.3.3",
+    "ts-jest": "^29.1.1",
+    "typescript": "*"
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "lint-staged": {
+    "**/*.{js,jsx,ts,tsx}": [
+      "npx prettier --write",
+      "npx eslint --fix"
+    ]
+  }
+}
+
