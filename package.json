@@ -1,14 +1,15 @@
 {
   "name": "wds-backend",
   "version": "1.0.0",
-  "description": "An Express.js boilerplate backend",
-  "author": "Louis-Kaan Ay",
+  "description": "An Express.js backend app",
+  "author": "Pavlo Yevtushenko",
   "license": "MIT",
   "private": false,
   "main": "index.js",
   "type": "commonjs",
   "scripts": {
-    "dev": "NODE_ENV=development tsc --project ./tsconfig.json --watch & nodemon ./dist/index.js",
+    "compile": "tsc && node ./dist/app.js",
+    "dev": "nodemon --watch src/ --exec \"npm run compile\" --verbose -e ts",
     "build": "tsc --project './tsconfig.json'",
     "start": "npm run build && NODE_ENV=production node ./dist/index.js",
     "watch": "tsc --project './tsconfig.json' --watch",
@@ -27,7 +28,9 @@
     "dotenv": "^16.3.1",
     "eslint": "^8.50.0",
     "express": "^4.18.2",
-    "helmet": "^7.0.0"
+    "mysql2": "^3.6.1",
+    "sequelize": "^6.33.0",
+    "sequelize-typescript": "^2.1.5"
   },
   "devDependencies": {
     "@tsconfig/node-lts-strictest-esm": "^18.12.1",
@@ -66,4 +69,3 @@
     ]
   }
 }
-
