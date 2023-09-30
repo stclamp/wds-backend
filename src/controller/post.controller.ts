@@ -1,6 +1,6 @@
 import { RequestHandler } from 'express';
 import { Post } from '../models/post.model';
-import { EPostMessages } from 'src/types';
+import { EPostMessages } from '../types';
 
 export const createPost: RequestHandler = async (req, res) => {
   try {

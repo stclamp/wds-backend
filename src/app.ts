@@ -1,10 +1,14 @@
 import express, { Express, Request, Response } from 'express';
 import cors from 'cors';
+import passport from 'passport';
+import cookieParser from 'cookie-parser';
 import compression from 'compression';
 import compressFilter from './utils/compressFilter.util';
 import config from './config/config';
 import connection from './db/config';
 import postRoutes from './routes/post.routes';
+import userRoutes from './routes/user.routes';
+import passportMiddleware from './middleware/passport';
 
 const app: Express = express();
 
@@ -28,8 +32,14 @@ app.use(
 // parse json
 app.use(express.json());
 
+app.use(cookieParser());
+app.use(passport.initialize());
+
+passportMiddleware(passport);
+
 // routes
 app.use('/posts', postRoutes);
+app.use('/', userRoutes);
 
 // handling error on server side
 app.use((err: Error, req: Request, res: Response) => {
