@@ -5,6 +5,7 @@ export enum EPostMessages {
   FETCHED = 'Posts fetched successful',
   FETCHED_SINGLE = 'Post fetched successful',
   UPDATED = 'Post updated successful',
+  RANDOM = 'Random post fetched successful',
 }
 
 export enum EUserMessages {

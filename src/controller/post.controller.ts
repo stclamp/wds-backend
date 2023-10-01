@@ -1,6 +1,7 @@
 import { RequestHandler } from 'express';
 import { Post } from '../models/post.model';
 import { EPostMessages } from '../types';
+import connection from '../db/config';
 
 export const createPost: RequestHandler = async (req, res) => {
   try {
@@ -75,6 +76,37 @@ export const updatePost: RequestHandler = async (req, res) => {
     return res
       .status(200)
       .json({ message: EPostMessages.UPDATED, data: updatedPost });
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ message: EPostMessages.ERROR, data: error.message });
+  }
+};
+
+export const getRandomPost: RequestHandler = async (req, res) => {
+  try {
+    const randomPost: Post = await Post.findOne({ order: connection.random() });
+
+    return res
+      .status(200)
+      .json({ message: EPostMessages.RANDOM, data: randomPost });
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ message: EPostMessages.ERROR, data: error.message });
+  }
+};
+
+export const getLastPosts: RequestHandler = async (req, res) => {
+  try {
+    const lastPosts: Post[] = await Post.findAll({
+      limit: 3,
+      order: [['createdAt', 'DESC']],
+    });
+
+    return res
+      .status(200)
+      .json({ message: EPostMessages.FETCHED, data: lastPosts });
   } catch (error) {
     return res
       .status(500)
