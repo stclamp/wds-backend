@@ -12,7 +12,7 @@ export class Post extends Model {
   title!: string;
 
   @Column({
-    type: DataType.STRING,
+    type: DataType.TEXT,
     allowNull: false,
   })
   text!: string;
