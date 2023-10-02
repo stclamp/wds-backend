@@ -35,13 +35,29 @@ export const deletePost: RequestHandler = async (req, res) => {
   }
 };
 
-export const getAllPosts: RequestHandler = async (req, res) => {
+export const getAllPostsAndPaginate: RequestHandler = async (req, res) => {
   try {
     const { limit, page } = req.query;
 
     const allPosts: IAllPosts = await Post.findAndCountAll({
       limit: +limit,
       offset: +page * +limit,
+    });
+
+    return res
+      .status(200)
+      .json({ message: EPostMessages.FETCHED, data: allPosts });
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ message: EPostMessages.ERROR, data: error.message });
+  }
+};
+
+export const getAllPosts: RequestHandler = async (req, res) => {
+  try {
+    const allPosts: Post[] = await Post.findAll({
+      order: [['createdAt', 'DESC']],
     });
 
     return res

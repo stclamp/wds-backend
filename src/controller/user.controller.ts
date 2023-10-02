@@ -1,4 +1,4 @@
-import { RequestHandler } from 'express';
+import { Request, RequestHandler, Response } from 'express';
 import bcrypt from 'bcrypt';
 import passport from 'passport';
 import { User } from '../models/user.model';
@@ -63,6 +63,22 @@ export const getUsers: RequestHandler = async (req, res) => {
   try {
     const allUsers: User[] = await User.findAll();
     res.status(200).json({ message: EUserMessages.FETCHED, data: allUsers });
+  } catch (error) {
+    res.status(500).json({ message: EUserMessages.ERROR, data: error.message });
+  }
+};
+
+export const getMe = async (
+  req: Request & { userId: number },
+  res: Response
+) => {
+  const { userId } = req;
+  try {
+    const me: User = await User.findByPk(userId, {
+      attributes: { exclude: ['password'] },
+    });
+
+    res.status(200).json({ message: EUserMessages.FETCHED, data: me });
   } catch (error) {
     res.status(500).json({ message: EUserMessages.ERROR, data: error.message });
   }

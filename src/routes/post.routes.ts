@@ -7,6 +7,7 @@ import {
   deletePost,
   getRandomPost,
   getLastPosts,
+  getAllPostsAndPaginate,
 } from '../controller/post.controller';
 import { verifyToken } from '../middleware/auth';
 import { ERoles } from '../types';
@@ -15,7 +16,9 @@ const router = Router();
 
 router.post('/', verifyToken(ERoles.ADMIN), createPost);
 
-router.get('/', getAllPosts);
+router.get('/', getAllPostsAndPaginate);
+
+router.get('/all', getAllPosts);
 
 router.get('/last', getLastPosts);
 
