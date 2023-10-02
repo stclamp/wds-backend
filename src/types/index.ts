@@ -1,3 +1,5 @@
+import { Post } from '../models/post.model';
+
 export enum EPostMessages {
   ERROR = 'An error occurred!',
   CREATED = 'Post created successful',
@@ -25,6 +27,11 @@ export enum EAuthMessages {
 export interface ITokenPayload {
   userId: string;
   role: string;
+}
+
+export interface IAllPosts {
+  rows: Post[];
+  count: number;
 }
 
 export enum ERoles {

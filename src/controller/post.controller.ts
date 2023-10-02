@@ -1,6 +1,6 @@
 import { RequestHandler } from 'express';
 import { Post } from '../models/post.model';
-import { EPostMessages } from '../types';
+import { EPostMessages, IAllPosts } from '../types';
 import connection from '../db/config';
 
 export const createPost: RequestHandler = async (req, res) => {
@@ -37,7 +37,12 @@ export const deletePost: RequestHandler = async (req, res) => {
 
 export const getAllPosts: RequestHandler = async (req, res) => {
   try {
-    const allPosts: Post[] = await Post.findAll();
+    const { limit, page } = req.query;
+
+    const allPosts: IAllPosts = await Post.findAndCountAll({
+      limit: +limit,
+      offset: +page * +limit,
+    });
 
     return res
       .status(200)
