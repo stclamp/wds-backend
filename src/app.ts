@@ -1,28 +1,58 @@
 import express, { Express, Request, Response } from 'express';
 import cors from 'cors';
-import helmet from 'helmet';
+import passport from 'passport';
+import cookieParser from 'cookie-parser';
 import compression from 'compression';
 import compressFilter from './utils/compressFilter.util';
 import config from './config/config';
+import connection from './db/config';
+import postRoutes from './routes/post.routes';
+import userRoutes from './routes/user.routes';
+import passportMiddleware from './middleware/passport';
 
 const app: Express = express();
 
+// setup cors
 app.use(
   cors({
-    // origin is given a array if we want to have multiple origins later
     origin: [config.cors_origin],
     credentials: true,
   })
 );
 
-// secure app by configuring the http-header
-app.use(helmet());
-
 // reduce the size of the response body
 app.use(compression({ filter: compressFilter }));
 
-app.get('/', (_req: Request, res: Response) => {
-  res.send('Hello World!');
+// parse json
+app.use(
+  express.urlencoded({
+    extended: true,
+  })
+);
+// parse json
+app.use(express.json());
+
+app.use(cookieParser());
+app.use(passport.initialize());
+
+passportMiddleware(passport);
+
+// routes
+app.use('/posts', postRoutes);
+app.use('/', userRoutes);
+
+// handling error on server side
+app.use((err: Error, req: Request, res: Response) => {
+  res.status(500).json({ message: err.message });
 });
 
-export default app;
+// connect to DB
+connection
+  .sync()
+  .then(() => console.log('Database synced successful'))
+  .catch((err) => console.error(err));
+
+// start server
+app.listen(parseInt(config.port), () => {
+  console.log('info', `Server is running on Port: ${config.port}`);
+});

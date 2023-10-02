@@ -1,14 +1,15 @@
 {
   "name": "wds-backend",
   "version": "1.0.0",
-  "description": "An Express.js boilerplate backend",
-  "author": "Louis-Kaan Ay",
+  "description": "An Express.js backend app",
+  "author": "Pavlo Yevtushenko",
   "license": "MIT",
   "private": false,
   "main": "index.js",
   "type": "commonjs",
   "scripts": {
-    "dev": "NODE_ENV=development tsc --project ./tsconfig.json --watch & nodemon ./dist/index.js",
+    "compile": "tsc && node ./dist/app.js",
+    "dev": "nodemon --watch src/ --exec \"npm run compile\" --verbose -e ts",
     "build": "tsc --project './tsconfig.json'",
     "start": "npm run build && NODE_ENV=production node ./dist/index.js",
     "watch": "tsc --project './tsconfig.json' --watch",
@@ -22,20 +23,32 @@
   },
   "dependencies": {
     "@types/helmet": "^4.0.0",
+    "bcrypt": "^5.1.1",
     "compression": "^1.7.4",
+    "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
     "eslint": "^8.50.0",
     "express": "^4.18.2",
-    "helmet": "^7.0.0"
+    "jsonwebtoken": "^9.0.2",
+    "mysql2": "^3.6.1",
+    "passport": "^0.6.0",
+    "passport-local": "^1.0.0",
+    "sequelize": "^6.33.0",
+    "sequelize-typescript": "^2.1.5"
   },
   "devDependencies": {
     "@tsconfig/node-lts-strictest-esm": "^18.12.1",
+    "@types/bcrypt": "^5.0.0",
     "@types/compression": "^1.7.3",
+    "@types/cookie-parser": "^1.4.4",
     "@types/cors": "^2.8.14",
     "@types/dotenv": "^8.2.0",
     "@types/express": "^4.17.18",
     "@types/jest": "^29.5.5",
+    "@types/jsonwebtoken": "^9.0.3",
+    "@types/passport": "^1.0.13",
+    "@types/passport-local": "^1.0.36",
     "@types/supertest": "^2.0.13",
     "@typescript-eslint/eslint-plugin": "^6.7.3",
     "@typescript-eslint/parser": "^6.7.3",
@@ -66,4 +79,3 @@
     ]
   }
 }
-
