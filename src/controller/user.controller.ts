@@ -9,7 +9,7 @@ import '../middleware/passport';
 export const registerUser: RequestHandler = async (req, res) => {
   const { username, password, role } = req.body;
 
-  const hashedPassword = await bcrypt.hash(password, 12);
+  const hashedPassword = await bcrypt.hash(password, 12); //hashing password for db
 
   try {
     const user: User = await User.create({
@@ -53,7 +53,7 @@ export const loginUser: RequestHandler = (req, res, next) => {
       const { id, username, role } = user;
       const payload = { userId: id, username, role };
       const token = generateToken(payload);
-      res.cookie('token', token, { httpOnly: true });
+      res.cookie('token', token, { httpOnly: true }); //set token to cookie
       return res.status(200).json({ message: EUserMessages.LOGGED_IN });
     });
   })(req, res, next);
@@ -62,12 +62,14 @@ export const loginUser: RequestHandler = (req, res, next) => {
 export const getUsers: RequestHandler = async (req, res) => {
   try {
     const allUsers: User[] = await User.findAll();
+
     res.status(200).json({ message: EUserMessages.FETCHED, data: allUsers });
   } catch (error) {
     res.status(500).json({ message: EUserMessages.ERROR, data: error.message });
   }
 };
 
+//get authenticated user
 export const getMe = async (
   req: Request & { userId: number },
   res: Response
@@ -75,7 +77,7 @@ export const getMe = async (
   const { userId } = req;
   try {
     const me: User = await User.findByPk(userId, {
-      attributes: { exclude: ['password'] },
+      attributes: { exclude: ['password'] }, //exclude password for return value
     });
 
     res.status(200).json({ message: EUserMessages.FETCHED, data: me });

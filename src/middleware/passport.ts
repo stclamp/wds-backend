@@ -10,7 +10,7 @@ export default (passport: PassportStatic) => {
         const user = await User.findOne({ where: { username } });
 
         if (!user) {
-          return done(null, false);
+          return done(null, false); // user not found
         }
 
         const isComparedPassword = await bcrypt.compare(
@@ -19,12 +19,12 @@ export default (passport: PassportStatic) => {
         );
 
         if (!isComparedPassword) {
-          return done(null, false);
+          return done(null, false); //incorrect password
         }
 
-        return done(null, user);
+        return done(null, user); //all ok
       } catch (error) {
-        return done(error);
+        return done(error); //something went wrong
       }
     })
   );

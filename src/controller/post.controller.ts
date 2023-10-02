@@ -41,7 +41,7 @@ export const getAllPostsAndPaginate: RequestHandler = async (req, res) => {
 
     const allPosts: IAllPosts = await Post.findAndCountAll({
       limit: +limit,
-      offset: +page * +limit,
+      offset: +page * +limit, //correct counting offset(current page)
     });
 
     return res
@@ -57,7 +57,7 @@ export const getAllPostsAndPaginate: RequestHandler = async (req, res) => {
 export const getAllPosts: RequestHandler = async (req, res) => {
   try {
     const allPosts: Post[] = await Post.findAll({
-      order: [['createdAt', 'DESC']],
+      order: [['createdAt', 'DESC']], //ordering by date (new first)
     });
 
     return res
@@ -106,7 +106,7 @@ export const updatePost: RequestHandler = async (req, res) => {
 
 export const getRandomPost: RequestHandler = async (req, res) => {
   try {
-    const randomPost: Post = await Post.findOne({ order: connection.random() });
+    const randomPost: Post = await Post.findOne({ order: connection.random() }); //connection is new Sequelize()
 
     return res
       .status(200)
@@ -119,6 +119,7 @@ export const getRandomPost: RequestHandler = async (req, res) => {
 };
 
 export const getLastPosts: RequestHandler = async (req, res) => {
+  //get last 3 post
   try {
     const lastPosts: Post[] = await Post.findAll({
       limit: 3,
