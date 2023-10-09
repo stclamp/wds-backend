@@ -106,11 +106,14 @@ export const updatePost: RequestHandler = async (req, res) => {
 
 export const getRandomPost: RequestHandler = async (req, res) => {
   try {
-    const randomPost: Post = await Post.findOne({ order: connection.random() }); //connection is new Sequelize()
+    const twoRandomPosts: Post[] = await Post.findAll({
+      limit: 2,
+      order: connection.random(),
+    });
 
     return res
       .status(200)
-      .json({ message: EPostMessages.RANDOM, data: randomPost });
+      .json({ message: EPostMessages.RANDOM, data: twoRandomPosts });
   } catch (error) {
     return res
       .status(500)
