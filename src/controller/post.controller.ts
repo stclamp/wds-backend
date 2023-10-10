@@ -5,7 +5,8 @@ import connection from '../db/config';
 
 export const createPost: RequestHandler = async (req, res) => {
   try {
-    const posts = await Post.create({ ...req.body });
+    const file = req.file;
+    const posts = await Post.create({ ...req.body, image: file.filename });
 
     return res
       .status(200)
@@ -88,9 +89,10 @@ export const getPostById: RequestHandler = async (req, res) => {
 
 export const updatePost: RequestHandler = async (req, res) => {
   try {
+    const file = req.file;
     const { id } = req.params;
 
-    await Post.update({ ...req.body }, { where: { id } });
+    await Post.update({ ...req.body, image: file.filename }, { where: { id } });
 
     const updatedPost: Post = await Post.findByPk(id);
 

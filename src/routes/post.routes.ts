@@ -11,10 +11,16 @@ import {
 } from '../controller/post.controller';
 import { verifyToken } from '../middleware/auth';
 import { ERoles } from '../types';
+import { uploadFile } from '../middleware/image';
 
 const router = Router();
 
-router.post('/', verifyToken(ERoles.ADMIN), createPost);
+router.post(
+  '/',
+  verifyToken(ERoles.ADMIN),
+  uploadFile.single('image'),
+  createPost
+);
 
 router.get('/', getAllPostsAndPaginate);
 
@@ -26,7 +32,12 @@ router.get('/random', getRandomPost);
 
 router.get('/:id', getPostById);
 
-router.put('/:id', verifyToken(ERoles.ADMIN), updatePost);
+router.put(
+  '/:id',
+  verifyToken(ERoles.ADMIN),
+  uploadFile.single('image'),
+  updatePost
+);
 
 router.delete('/:id', verifyToken(ERoles.ADMIN), deletePost);
 

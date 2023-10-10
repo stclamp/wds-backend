@@ -35,6 +35,9 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(passport.initialize());
 
+//use uploads static folder
+app.use(express.static('uploads'));
+
 passportMiddleware(passport);
 
 // routes
